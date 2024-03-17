@@ -2,6 +2,7 @@ package com.example.lms.Controller;
 
 import com.example.lms.ApiResponse.ApiResponse;
 import com.example.lms.Model.Course;
+import com.example.lms.Model.Instructor;
 import com.example.lms.Model.User;
 import com.example.lms.Services.CourseService;
 import com.example.lms.Services.UserService;
@@ -79,6 +80,40 @@ public class UserController {
             return ResponseEntity.status(400).body(new ApiResponse("list not found"));
         }
         return ResponseEntity.status(200).body(hourList);
+    }
+
+
+    @GetMapping("search/{email}")
+    public ResponseEntity getUserByEmail(@PathVariable String email){
+
+        User user = userService.search(email);
+
+        if (user == null){
+            return ResponseEntity.status(400).body(new ApiResponse("user not found"));
+        }
+
+        return ResponseEntity.status(200).body(user);
+    }
+
+
+    @GetMapping("get-all-courses/{id}")
+    public ResponseEntity getAllUserCourses(@PathVariable String id) {
+
+        ArrayList<Course> userList = userService.getAllCoursesEnrolled(id);
+        if (userList.isEmpty()){
+            return ResponseEntity.status(400).body("not found");
+        }
+        return ResponseEntity.status(200).body(userList);
+    }
+
+    @GetMapping("get-all-courses/{id}")
+    public ResponseEntity getNumOfCourses(@PathVariable String id) {
+
+        int num = userService.getNumOfCourses(id);
+        if (num == 0){
+            return ResponseEntity.status(400).body("not found");
+        }
+        return ResponseEntity.status(200).body(num);
     }
 
 
