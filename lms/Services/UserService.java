@@ -1,15 +1,19 @@
 package com.example.lms.Services;
 
 import com.example.lms.Model.Course;
+import com.example.lms.Model.Instructor;
 import com.example.lms.Model.User;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@AllArgsConstructor
 @Service
 public class UserService {
 
+
     ArrayList<User> userList = new ArrayList<>();
+    private final CourseService courseService;
 
     public ArrayList<User> getAllUsers() {
         return userList;
@@ -55,6 +59,45 @@ public class UserService {
             }
         }
         return hoursList;
+    }
+
+
+    //search for user by email
+    public User search(String email){
+        for (User user : userList) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+
+        }
+        return null;
+    }
+
+    //get all the course that the user enroll
+    public ArrayList<Course> getAllCoursesEnrolled(String id){
+        ArrayList<Course> courseList = new ArrayList<>();
+        for (Course course : courseService.courseList){
+            for (User user : course.getEnrolledUsers()){
+                if (user.getId().equals(id)){
+                    courseList.add(course);
+                }
+            }
+        }
+        return courseList;
+    }
+
+
+    //get number of courses the user enrolled
+    public int getNumOfCourses(String id){
+        int sum = 0;
+        for (Course course : courseService.courseList){
+            for (User user : course.getEnrolledUsers()){
+                if (user.getId().equals(id)){
+                    sum++;
+                }
+            }
+        }
+        return sum;
     }
 
 
