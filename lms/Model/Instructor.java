@@ -13,6 +13,8 @@ public class Instructor {
     private String id;
     @NotEmpty(message = "name must be not null")
     private String name;
+    @NotEmpty(message = "email must be not null")
+    private String email;
 
 
 
