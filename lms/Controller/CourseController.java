@@ -95,4 +95,27 @@ public class CourseController {
     }
 
 
+    @GetMapping("all-users-enrolled/{id}")
+    public ResponseEntity getAllUsersEnrolled(@PathVariable String id){
+
+        ArrayList<User> userList = courseService.userList(id);
+
+        if (userList.isEmpty()){
+            return ResponseEntity.status(400).body(new ApiResponse("no user found"));
+        }
+        return ResponseEntity.status(200).body(userList);
+    }
+
+
+    @GetMapping("num-users-enrolled/{id}")
+    public ResponseEntity getNumOfUsers(@PathVariable String id){
+
+        int num = courseService.numberOfUsers(id);
+
+        if (num == 0){
+            return ResponseEntity.status(400).body(new ApiResponse("no user found"));
+        }
+        return ResponseEntity.status(200).body(num);
+    }
+
 }
