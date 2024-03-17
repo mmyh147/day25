@@ -1,6 +1,7 @@
 package com.example.lms.Controller;
 
 import com.example.lms.ApiResponse.ApiResponse;
+import com.example.lms.Model.Course;
 import com.example.lms.Model.Instructor;
 import com.example.lms.Model.User;
 import com.example.lms.Services.InstructorService;
@@ -77,10 +78,48 @@ public class InstructorController {
         Instructor instructor = instructorService.search(name);
 
         if (instructor == null){
-            return ResponseEntity.status(400).body(new ApiResponse("student not found"));
+            return ResponseEntity.status(400).body(new ApiResponse("instructor not found"));
         }
 
         return ResponseEntity.status(200).body(instructor);
+    }
+
+
+    @GetMapping("get-all-courses/{id}")
+    public ResponseEntity getAllICourses(@PathVariable String id) {
+
+        ArrayList<Course> courseList = instructorService.getAllTheCourses(id);
+        if (courseList.isEmpty()){
+            return ResponseEntity.status(400).body("not found");
+
+        }
+        return ResponseEntity.status(200).body(courseList);
+    }
+
+
+    @GetMapping("get-num-courses/{id}")
+    public ResponseEntity getNumOfCourses(@PathVariable String id) {
+
+        int num = instructorService.getNumberOfCourses(id);
+        if (num == 0){
+            return ResponseEntity.status(400).body("not found");
+
+        }
+        return ResponseEntity.status(200).body(num);
+    }
+
+    @PutMapping("change-instructor/{courseId}/{instructorID}")
+    public ResponseEntity changeInstructor(@PathVariable String courseId,@PathVariable String instructorID) {
+
+            boolean isChanged = instructorService.changeInstructor(courseId, instructorID);
+
+            if (isChanged){
+                return ResponseEntity.status(200).body("instructor has been changed");
+            }else{
+                return ResponseEntity.status(400).body("not found");
+            }
+
+
     }
 
 
