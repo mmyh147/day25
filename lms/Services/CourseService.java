@@ -80,7 +80,28 @@ public class CourseService {
     }
 
 
+//return all the users enrolled in the course
+public ArrayList<User> userList(String id){
 
+        for (Course course : courseList){
+            if(course.getId().equals(id)){
+                return course.getEnrolledUsers();
+            }
+        }
+        return null;
+}
+
+
+    //return number of users enrolled the course
+    public int numberOfUsers(String id){
+
+        for (Course course : courseList){
+            if(course.getId().equals(id)){
+                return course.getEnrolledUsers().size();
+            }
+        }
+        return 0;
+    }
 
 
 }
