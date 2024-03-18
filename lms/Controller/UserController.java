@@ -106,7 +106,7 @@ public class UserController {
         return ResponseEntity.status(200).body(userList);
     }
 
-    @GetMapping("get-all-courses/{id}")
+    @GetMapping("get-num-courses/{id}")
     public ResponseEntity getNumOfCourses(@PathVariable String id) {
 
         int num = userService.getNumOfCourses(id);
